@@ -1,71 +1,62 @@
-# drowsy-driving-classification
+# Drowsy Driving Classification
 
-This repository contains a PyTorch notebook and supporting code for detecting driver drowsiness from images using convolutional neural networks (CNNs).
+A deep learning project for detecting driver drowsiness from images using PyTorch and convolutional neural networks (CNNs).
 
 ## Overview
 
-The included notebook `code.ipynb` implements transfer learning experiments and evaluation for binary classification (Drowsy vs Non Drowsy). Instead of a single model, the project compares three pre-trained architectures adapted for this task:
+This project implements transfer learning to classify driver states as **Drowsy** or **Non Drowsy**. The notebook compares three lightweight pre-trained architectures optimized for real-time performance:
 
-- MobileNetV3 (mobilenet_v3_large)
-- EfficientNet-B0 (efficientnet_b0)
-- SqueezeNet (squeezenet1_0)
+- **MobileNetV3** - Efficient architecture designed for mobile devices
+- **EfficientNet-B0** - Balanced accuracy and efficiency
+- **SqueezeNet** - Compact model with fewer parameters
 
-Key steps performed in the notebook:
-
-- Load and split the dataset into train / val / test (≈70% / 20% / 10%).
-- Apply image transforms and augmentations (resize to 224×224, color jitter, normalize with ImageNet mean/std).
-- Prepare PyTorch `Dataset` and `DataLoader` (default batch_size=64 in the notebook).
-- Initialize and fine-tune pretrained models by replacing classifier heads and unfreezing the last layers.
-- Train with cross-entropy loss and Adam optimizer, use checkpointing and early stopping.
-- Evaluate using accuracy, loss, confusion matrices and plot training curves.
-- Measure inference latency for saved models.
+The models are fine-tuned on a drowsiness detection dataset and evaluated on accuracy, confusion matrices, and inference latency.
 
 ## Dataset
 
-The notebook expects the Drowsy Driving dataset. A publicly available dataset is linked on Kaggle:
+Download the Drowsy Driving dataset from [Kaggle](https://www.kaggle.com/datasets/akshaybhalotia/drowsy-driving-classification).
 
-- https://www.kaggle.com/datasets/akshaybhalotia/drowsy-driving-classification
+Update the `main_path` variable in [code.ipynb](code.ipynb) to point to your dataset location:
 
-In the notebook the dataset path is set to:
+```python
+main_path = "/path/to/Driver Drowsiness Dataset (DDD)/"
+```
 
-`/kaggle/input/driver-drowsiness-dataset-ddd/Driver Drowsiness Dataset (DDD)/`
+The dataset is split into:
+- Training: ~70%
+- Validation: ~20%
+- Test: ~10%
 
-If you run the notebook locally, download and extract the dataset and update the `main_path` variable in `code.ipynb` to point to your local dataset folder.
+## Installation
 
-## Dependencies
-
-The notebook uses the following Python packages (tested with recent PyTorch / torchvision releases):
-
-- torch
-- torchvision
-- torchsummary
-- numpy
-- pandas
-- matplotlib
-- scikit-learn
-- pillow
-
-Install via pip, for example:
+Install required dependencies:
 
 ```powershell
 pip install torch torchvision torchsummary numpy pandas matplotlib scikit-learn pillow
 ```
 
-Note: Install the correct CUDA-enabled torch build for your GPU if needed. The notebook automatically selects GPU when available.
+The notebook automatically uses GPU if available.
 
-## How to run
+## Usage
 
-1. Open `code.ipynb` in Jupyter / VS Code and update the dataset `main_path` if running locally.
-2. Ensure dependencies are installed and the Python kernel has access to PyTorch.
-3. Run cells interactively. Training, evaluation, and latency-measurement utilities are implemented in the notebook.
+1. Open [code.ipynb](code.ipynb) in Jupyter or VS Code
+2. Update the dataset path
+3. Run cells to train and evaluate all three models
 
-The notebook saves best model checkpoints named like `best_<model_name>_model.pth` (in the notebook they are saved under `/kaggle/working/` by default).
+The notebook includes:
+- Data augmentation and preprocessing
+- Model training with early stopping
+- Performance evaluation and visualization
+- Inference latency measurement
 
-## Outputs
+## Results
 
-- Trained model checkpoints (`best_mobilenet_model.pth`, `best_efficientnet_model.pth`, `best_squeezenet_model.pth`).
-- Training / validation loss plots, confusion matrices and a small latency comparison plot.
+The project outputs:
+- Trained model checkpoints: `best_mobilenet_model.pth`, `best_efficientnet_model.pth`, `best_squeezenet_model.pth`
+- Training and validation loss curves
+- Confusion matrices for each model
+- Latency comparison plots
 
 ## License
 
-See the `LICENSE` file in this repository for license details.
+See [LICENSE](LICENSE) file for details.
